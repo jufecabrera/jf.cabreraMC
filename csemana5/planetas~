@@ -1,0 +1,8 @@
+#include <stdio.h>
+#include <math.h>
+
+FILE *fopen(const char *"coordinates.csv", const char *"r");
+
+main(void){
+
+}

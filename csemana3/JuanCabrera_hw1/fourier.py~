@@ -1,0 +1,10 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fftpack import fft, fftfreq
+mag = np.loadtxt('magnitude.tsv')
+fas = np.loadtxt('phase.tsv')
+print mag
+f = mag*np.exp(1j*fas)
+F= fftpack.ifft2(f)
+plt.imshow(F)
+plt.savefig('secret.jpg')
