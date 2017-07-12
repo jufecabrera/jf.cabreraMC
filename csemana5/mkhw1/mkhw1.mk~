@@ -1,8 +1,0 @@
-all : *.pdf
-	
-cargas.pdf : cargas.py
-	python $^
-integral.pdf : integral.py
-	python $^
-err.pdf : integral.py
-	python $^

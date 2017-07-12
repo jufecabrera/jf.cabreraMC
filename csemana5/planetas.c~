@@ -1,9 +1,0 @@
-#include <stdio.h>
-#include <math.h>
-
-
-main(void){
-FILE *fp;
-	fp = fopen ("coodinates.csv", "r");
-
-}
