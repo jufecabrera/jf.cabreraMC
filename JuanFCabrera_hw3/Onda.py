@@ -1,13 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
-M = np.zeros((300,300))
-M[100,150]=-0.5
-dx,dy=30./len(M[0])
-t_max=60
-points = 600
-dt = float(t_max)/points
-for k in range(points):
-	M_past = M.copy()
-	for j in range(1,points-1):
-		 
-	 
+import matplotlib.animation as animation
+x = y =np.linspace(0,30,300)
+dx = dy = 30./300
+dt = dx/2
+r2=(dt/dx)**2
+t_max=15
+steps = t_max/dt
+M = np.zeros((int(steps),300,300))
+M[:,100,0:130]=-2
+M[:,100,-130:-1]=-2
+M[0,200,150]=-0.5
+#t=1
+for i in range(1,299):
+	for j in range(1,290):
+		if (i==99 or i==100 or i==101):
+			if (j<=131 or j>=169):
+				continue
+		M[1,i,j] =r2/2*(M[0,i+1,j]+M[0,i-1,j]-4*M[0,i,j]+M[0,i,j+1]+M[0,i,j-1])+M[0,i,j]
+#todos los tiempos
+for k in range(1,int(steps)-1):
+	print k
+	for i in range(1,299):
+		for j in range(1,299):
+			if (i==99 or i==100 or i==101):
+				if (j<=131 or j>=169):
+					continue
+			M[k+1,i,j] = r2*(M[k,i+1,j]+M[k,i-1,j]-4*M[k,i,j]+M[k,i,j+1]+M[k,i,j-1])+2*M[k,i,j]-M[k-1,i,j]
+
+fig, ax = plt.subplots(figsize=(7, 6))
+cax = ax.pcolormesh(x,y,M[0,:-1, :-1],vmin=-0.5, vmax=0.5,cmap='Blues')
+fig.colorbar(cax)
+def animate(i):
+	cax.set_array(M[i,:-1, :-1].flatten())
+	return cax	
+ani = animation.FuncAnimation(fig, animate, np.arange(1,int(steps)),interval=10, blit=False)
+plt.show()
+
+
+
+
