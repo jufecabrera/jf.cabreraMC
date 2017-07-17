@@ -106,7 +106,7 @@ double A(double M[10][8][t_max], int p2, double rt){
 }
 double v(double M[10][8][t_max], double rt, int dat, int p1, int p2, int tie){
 	double v;
-	v = (M[p2][dat][tie]-M[p1][dat][tie])/rt;
+	v = (M[p2][dat-3][tie]-M[p1][dat-3][tie])/rt;
 	return v;
 }
 
