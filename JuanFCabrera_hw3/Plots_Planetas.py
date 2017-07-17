@@ -9,10 +9,17 @@ t = datos[:,0]
 for i in range(1,l):
 	ii = i-1
 	globals()['d%s' % ii] = datos[:,i]
+
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-for i in range(5):
-	j = i+10
-	k = i+20
-	ax.plot(globals()['d%s' % i],globals()['d%s' % j],globals()['d%s' % k])
+for i in range(10):
+	ax.plot(globals()['d%s' % i],globals()['d1%s' % i],globals()['d2%s' % i])
+	globals()['line%s' % i], = ax.plot([],[],[],'o')
+def animate(i):
+	for j in range(10):
+		globals()['line%s' % j].set_data([globals()['d%s' % j][i]],[globals()['d1%s' % j][i]])
+		globals()['line%s' % j].set_3d_properties([globals()['d2%s' % j][i]])
+	for j in range(10):		
+		return globals()['line%s' % j],
+ani = animation.FuncAnimation(fig, animate, np.arange(1, n_points),interval=2, blit=True)
 plt.show()
