@@ -12,7 +12,7 @@ double A(double* M, int p2, double rt);
 double v(double* M, double rt, int dat, int p1, int p2, int tie);
 int ind(int i, int j, int k);
 int main(void){
-	int t_max=260000;
+	int t_max=250000;
 	int i=0, j=0, k;
 	float t[t_max];
 	double *M = malloc((10*8*t_max)*sizeof(double));
