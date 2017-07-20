@@ -12,19 +12,6 @@ c=['gold','k','y','g','r','c','m','b','lime','gray']
 for i in range(1,l):
 	ii = i-1
 	globals()['d%s' % ii] = datos[:,i]
-fig1 = plt.figure()
-ax1 = fig1.add_subplot(111, projection='3d')
-for i in range(10):
-	ax1.plot(globals()['d%s' % i],globals()['d1%s' % i],globals()['d2%s' % i], label = n[i])
-ax1.set_title('Orbitas de los Planetas')
-ax1.set_xlabel('x (AU)')
-ax1.set_ylabel('y (AU)')
-ax1.set_zlabel('z (AU)')
-ax1.legend(loc='upper left',fontsize=9)
-plt.tight_layout()
-plt.savefig('orbitas.png')
-plt.close()
-
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 for i in range(10):
@@ -35,6 +22,7 @@ ax.set_xlabel('x (AU)')
 ax.set_ylabel('y (AU)')
 ax.set_zlabel('z (AU)')
 ax.legend(loc='upper left',fontsize=9)
+plt.savefig('orbitas.png')
 def animate(i):
 	for j in range(10):
 		globals()['line%s' % j].set_data([globals()['d%s' % j][i]],[globals()['d1%s' % j][i]])
