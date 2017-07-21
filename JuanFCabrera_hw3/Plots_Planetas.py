@@ -30,6 +30,5 @@ def animate(i):
 	lines = [globals()['line%s' % j] for j in range(10)]
 	return tuple(lines)	
 ani = animation.FuncAnimation(fig, animate, np.arange(1, n_points),interval=8, blit=False)
-plt.show()
-#ani.save('Planetas.mp4')
+ani.save('Planetas.mp4')
 plt.close()

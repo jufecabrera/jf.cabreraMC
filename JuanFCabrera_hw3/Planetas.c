@@ -16,6 +16,7 @@ int main(void){
 	int i=0, j=0, k;
 	float t[t_max];
 	double *M = malloc((10*8*t_max)*sizeof(double));
+	//lectura de los datos
 	FILE *file;
 	file = fopen("coordinates.csv", "r");
 	int len = 250;
@@ -66,6 +67,7 @@ int main(void){
 	}
 	return 0;		
 }
+//calcula los datos en el tiempo 1
 void step1(double* M, int pla, int dat){
 	if(dat==2||dat==3||dat==4){	
 		M[ind(pla,dat,1)]= M[ind(pla,dat,0)]+h*M[ind(pla,(dat+3),0)];
@@ -74,6 +76,7 @@ void step1(double* M, int pla, int dat){
 		M[ind(pla,dat,1)]= M[ind(pla,dat,0)]+h*acalc(M,pla,dat,0);	
 	}
 }
+//calcula los datos para todos los tiempos
 void step(double* M, int pla, int dat , int tie){
 	if(dat==2||dat==3||dat==4){	
 		M[ind(pla,dat,tie)]= M[ind(pla,dat,tie-2)]+2*h*M[ind(pla,dat+3,tie-1)];
@@ -82,6 +85,7 @@ void step(double* M, int pla, int dat , int tie){
 		M[ind(pla,dat,tie)]= M[ind(pla,dat,tie-2)]+2*h*acalc(M,pla,dat,tie-1);	
 	}
 }
+//calcula acelearcion debido a cada planeta
 double acalc(double* M, int pla, int dat, int tie){
 	int i;	
 	double a = 0;	
@@ -94,22 +98,26 @@ double acalc(double* M, int pla, int dat, int tie){
 	}
 	return a;
 }
+//calcula distancia entre dos planetas
 double RT(double* M, int p1, int p2, int tie){
 	double rt;
 	rt = sqrt((M[ind(p1,2,tie)]-M[ind(p2,2,tie)])*(M[ind(p1,2,tie)]-M[ind(p2,2,tie)])+(M[ind(p1,3,tie)]-M[ind(p2,3,tie)])*(M[ind(p1,3,tie)]-M[ind(p2,3,tie)])+(M[ind(p1,4,tie)]-M[ind(p2,4,tie)])*(M[ind(p1,4,tie)]-M[ind(p2,4,tie)]));
 	return rt;
 }
+//calcula acelearcion debido a un planeta
 double A(double* M, int p2, double rt){
 	double G = 1.985229E-29;
 	double a;
 	a = G*M[ind(p2,1,0)]/(rt*rt);
 	return a;
 }
+//calculas componenete de aceleracion en un eje
 double v(double* M, double rt, int dat, int p1, int p2, int tie){
 	double v;
 	v = (M[ind(p2,dat-3,tie)]-M[ind(p1,dat-3,tie)])/rt;
 	return v;
 }
+//indice para memoria plana
 int ind(int i, int j, int k){
 	int a=10*8*k+8*i+j;
 	return a;

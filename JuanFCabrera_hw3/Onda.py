@@ -29,6 +29,7 @@ for k in range(1,int(steps)-1):
 					continue
 			M[k+1,i,j] = r2*(M[k,i+1,j]+M[k,i-1,j]-4*M[k,i,j]+M[k,i,j+1]+M[k,i,j-1])+2*M[k,i,j]-M[k-1,i,j]
 M = M+2
+#imagen t=30
 plt.pcolormesh(x,y,M[424],vmin=1.98, vmax=2.02,cmap='seismic')
 plt.title('T = 30')
 bar = plt.colorbar()
@@ -36,6 +37,7 @@ bar.set_label('Profundidad')
 plt.tight_layout()
 plt.savefig('30.png')
 plt.close()
+#imagen t=60
 plt.pcolormesh(x,y,M[847],vmin=1.98, vmax=2.02,cmap='seismic')
 plt.title('T = 60')
 bar = plt.colorbar()
@@ -43,17 +45,18 @@ bar.set_label('Profundidad')
 plt.tight_layout()
 plt.savefig('60.png')
 plt.close()
+#animacion
 fig, ax = plt.subplots(figsize=(7, 6))
 cax = ax.pcolormesh(x,y,M[0,:-1, :-1],vmin=1.98, vmax=2.02,cmap='seismic')
 bar = fig.colorbar(cax)
 bar.set_label('Profundidad')
+cax.set_title('Cubeta')
 plt.tight_layout()
 def animate(i):
 	cax.set_array(M[i,:-1,:-1].flatten())
 	return cax	
 ani = FuncAnimation(fig, animate, np.arange(1,int(steps)),interval=5, blit=False)
-plt.show()
-#ani.save('Onda.mp4')
+ani.save('Onda.mp4')
 plt.close()
 
 
