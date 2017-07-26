@@ -2,7 +2,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#define iter 1000
+#include <time.h>
+#define iter 2000
 
 int lx = 744;
 int ly = 500;
@@ -10,8 +11,10 @@ int indl(int i, int d);
 int ind(int y, int x);
 double randnum(void);
 void first(double* L, int* M);
+void algor(double* L,int* M);
 double get_r(int* M,int x, int y);
-void imprim(int* M);
+int rmax(double* L);
+void imprim(double* L);
 void main(void)
 {
 	int i=0, j=0;
@@ -37,8 +40,10 @@ void main(void)
 		i += 1;
 	}
 	fclose(file);
+	srand((unsigned)time(NULL));
 	first(L,M);
-	printf("%d %d %e\n",(int)L[indl(0,0)],(int)L[indl(0,1)],L[indl(0,2)]);
+	algor(L,M);	
+	imprim(L);
 }
 int ind(int y, int x)
 {
@@ -52,7 +57,7 @@ int indl(int i, int d)
 }
 double randnum(void)
 {
-	double ran =    ((double) rand()/RAND_MAX);
+	double ran = ((double) rand()/RAND_MAX);
 	return ran;
 }
 void first(double* L, int* M)
@@ -73,11 +78,61 @@ void first(double* L, int* M)
 	L[indl(0,1)]=y;
 	L[indl(0,2)]=get_r(M,x,y);
 }
-void algor(int* M)
+void algor(double* L,int* M)
 {
 	int xa;
 	int ya;
-	
+	int i;
+	int agua;
+	double r;
+	double alpha, beta;
+	for(i=1;i<iter;i++)
+	{
+		agua =1;
+		while(agua)
+		{
+			xa = 300*(2*randnum()-1)+L[indl(i-1,0)];
+			ya = 300*(2*randnum()-1)+L[indl(i-1,1)];
+			xa = xa%lx;
+			ya = ya%ly;			
+			if(xa<0)
+			{
+				xa = lx+xa;
+			}
+			if(ya<0)
+			{
+				ya = ly+ya;
+			}
+			if(M[ind(ya,xa)]==0)
+			{
+				agua = 0;
+			}
+		}
+		r = get_r(M,xa,ya);
+		alpha = r/L[indl(i-1,2)];
+		if(alpha > 1)
+		{
+			L[indl(i,0)]=xa;
+			L[indl(i,1)]=ya;
+			L[indl(i,2)]=r;
+		}
+		else
+		{
+			beta = randnum();
+			if(alpha>beta)
+			{
+				L[indl(i,0)]=xa;
+				L[indl(i,1)]=ya;
+				L[indl(i,2)]=r;
+			}
+			else
+			{
+				L[indl(i,0)]=L[indl(i-1,0)];
+				L[indl(i,1)]=L[indl(i-1,1)];
+				L[indl(i,2)]=L[indl(i-1,2)];
+			}
+		}
+	}
 }
 double get_r(int* M,int x, int y)
 {
@@ -89,12 +144,12 @@ double get_r(int* M,int x, int y)
 	int yi;
 	int p;
 	min = 1000.0;
-	for(i=0;i<300;i++)
+	for(i=0;i<200;i++)
 	{
-		for(j=0;j<300;j++)
+		for(j=0;j<200;j++)
 		{
-			xi = x-150+j;
-			yi = y-150+i;
+			xi = x-100+j;
+			yi = y-100+i;
 			xi = xi%lx;
 			yi = yi%ly;
 			if(xi<0)
@@ -119,18 +174,26 @@ double get_r(int* M,int x, int y)
 	}
 	return min;
 }
-void imprim(int* M)
+int rmax(double* L)
 {
-	int i,j;
-	FILE *f = fopen("m.txt","w");
-	for(j=0;j<ly;j++)
+	double max=0;
+	int imax;
+	int i;
+	for(i=0;i<iter;i++)
 	{
-		for(i=0;i<lx;i++)
+		if(L[indl(i,2)]>max)
 		{
-			fprintf(f, "%d ",M[ind(j,i)]);
+			max=L[indl(i,2)];
+			imax=i;
 		}
-		fprintf(f, "\n");
 	}
+	return imax;
+}
+void imprim(double* L)
+{
+	int j = rmax(L);
+	FILE *f = fopen("m.txt","w");
+	fprintf(f, "%d %d %e\n",(int)L[indl(j,0)],(int)L[indl(j,1)],L[indl(j,2)]);
 	fclose(f);
 }
 
