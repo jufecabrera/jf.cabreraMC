@@ -1,5 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-data = np.loadtxt('map_data.txt')
+data = np.loadtxt('m.txt')
 plt.imshow(data)
-print np.shape(data)
+plt.show()
