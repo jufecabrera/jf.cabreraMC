@@ -2,12 +2,14 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#define iter 10000
+#define iter 1000
 
 int lx = 744;
 int ly = 500;
+int indl(int i, int d);
 int ind(int y, int x);
 double randnum(void);
+void first(double* L, int* M);
 double get_r(int* M,int x, int y);
 void imprim(int* M);
 void main(void)
@@ -35,24 +37,41 @@ void main(void)
 		i += 1;
 	}
 	fclose(file);
+	first(L,M);
+	printf("%d %d %e\n",(int)L[indl(0,0)],(int)L[indl(0,1)],L[indl(0,2)]);
 }
 int ind(int y, int x)
 {
 	int a = y*lx+x;
 	return a;
 }
+int indl(int i, int d)
+{
+	int a = i*3+d;
+	return a;
+}
 double randnum(void)
 {
-	double ran =    2*((double) rand()/RAND_MAX)-1;
+	double ran =    ((double) rand()/RAND_MAX);
 	return ran;
 }
 void first(double* L, int* M)
 {
 	int agua = 1;
+	int x;
+	int y;
 	while(agua)
 	{
-		
+		x = randnum()*lx;
+		y = randnum()*ly;
+		if(M[ind(y,x)]==0)
+		{
+			agua = 0;
+		}
 	}
+	L[indl(0,0)]=x;
+	L[indl(0,1)]=y;
+	L[indl(0,2)]=get_r(M,x,y);
 }
 void algor(int* M)
 {
@@ -80,11 +99,11 @@ double get_r(int* M,int x, int y)
 			yi = yi%ly;
 			if(xi<0)
 			{
-				xi = xl+xi;
+				xi = lx+xi;
 			}
 			if(yi<0)
 			{
-				yi = yl+yi;
+				yi = ly+yi;
 			}		
 			p = M[ind(yi,xi)];
 			if(p==0)
