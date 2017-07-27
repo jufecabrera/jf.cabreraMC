@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define iter 2000
+#define iter 1000
 
 int lx = 744;
 int ly = 500;
@@ -74,9 +74,9 @@ void first(double* L, int* M)
 			agua = 0;
 		}
 	}
-	L[indl(0,0)]=x;
-	L[indl(0,1)]=y;
-	L[indl(0,2)]=get_r(M,x,y);
+	L[indl(0,0)]=700;
+	L[indl(0,1)]=20;
+	L[indl(0,2)]=get_r(M,700,20);
 }
 void algor(double* L,int* M)
 {
@@ -91,8 +91,8 @@ void algor(double* L,int* M)
 		agua =1;
 		while(agua)
 		{
-			xa = 300*(2*randnum()-1)+L[indl(i-1,0)];
-			ya = 300*(2*randnum()-1)+L[indl(i-1,1)];
+			xa = 100*(2*randnum()-1)+L[indl(i-1,0)];
+			ya = 100*(2*randnum()-1)+L[indl(i-1,1)];
 			xa = xa%lx;
 			ya = ya%ly;			
 			if(xa<0)
@@ -109,7 +109,7 @@ void algor(double* L,int* M)
 			}
 		}
 		r = get_r(M,xa,ya);
-		alpha = r/L[indl(i-1,2)];
+		alpha = exp((r-L[indl(i-1,2)])*10);
 		if(alpha > 1)
 		{
 			L[indl(i,0)]=xa;
@@ -159,6 +159,7 @@ double get_r(int* M,int x, int y)
 			if(yi<0)
 			{
 				yi = ly+yi;
+				//printf("entro y\n");
 			}		
 			p = M[ind(yi,xi)];
 			if(p==0)
@@ -191,9 +192,12 @@ int rmax(double* L)
 }
 void imprim(double* L)
 {
-	int j = rmax(L);
+	int j;
 	FILE *f = fopen("m.txt","w");
-	fprintf(f, "%d %d %e\n",(int)L[indl(j,0)],(int)L[indl(j,1)],L[indl(j,2)]);
+	for(j=0;j<iter;j++)
+	{
+		fprintf(f, "%d %d %e\n",(int)L[indl(j,0)],(int)L[indl(j,1)],L[indl(j,2)]);
+	}
 	fclose(f);
 }
 
