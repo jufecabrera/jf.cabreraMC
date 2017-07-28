@@ -2,14 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 data = np.loadtxt('map_data.txt')
 coor = np.loadtxt('m.txt')
-x = coor[:,0]
-y = coor[:,1]
-#r = float(coor[2])
-fig = plt.figure()
-ax= fig.add_subplot(111) 
-ax.imshow(data)
-ax.plot(x,y,'-o')
-#circle = plt.Circle((x, y), r, color='b', fill=False)
-#ax.add_artist(circle)
-plt.show()
-#plt.savefig('PuntoNemo.pdf')
+x = coor[0]
+y = coor[1]
+r = coor[2]
+rx = r*(360./744.)
+ry = r*(180./500.)
+thet=np.linspace(0,2*np.pi,1000)
+xr = rx*np.cos(thet)+x
+yr = ry*np.sin(thet)+y
+plt.imshow(data,extent=[-180,180,-90,90])
+plt.plot(x,y,'o',c='b')
+plt.plot(xr,yr,c='b')
+plt.title('Punto Nemo')
+plt.xlabel('Longitud (grados)')
+plt.ylabel('Latitud (grados)')
+plt.savefig('PuntoNemo.pdf')

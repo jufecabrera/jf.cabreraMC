@@ -1,6 +1,7 @@
 PuntoNemo.pdf : Plots.py
 	python $^
+	rm m.txt a.out 
 Plots.py : a.out
 	./$^
-a.out : PuntoGeographicPoint.c
+a.out : GeographicPoint.c
 	cc $^ -lm

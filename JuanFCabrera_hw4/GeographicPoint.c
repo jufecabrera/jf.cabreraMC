@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define iter 1000
+#define iter 5000
 
 int lx = 744;
 int ly = 500;
@@ -74,9 +74,9 @@ void first(double* L, int* M)
 			agua = 0;
 		}
 	}
-	L[indl(0,0)]=700;
-	L[indl(0,1)]=20;
-	L[indl(0,2)]=get_r(M,700,20);
+	L[indl(0,0)]=x;
+	L[indl(0,1)]=y;
+	L[indl(0,2)]=get_r(M,x,y);
 }
 void algor(double* L,int* M)
 {
@@ -91,8 +91,8 @@ void algor(double* L,int* M)
 		agua =1;
 		while(agua)
 		{
-			xa = 100*(2*randnum()-1)+L[indl(i-1,0)];
-			ya = 100*(2*randnum()-1)+L[indl(i-1,1)];
+			xa = 300*(2*randnum()-1)+L[indl(i-1,0)];
+			ya = 300*(2*randnum()-1)+L[indl(i-1,1)];
 			xa = xa%lx;
 			ya = ya%ly;			
 			if(xa<0)
@@ -159,7 +159,6 @@ double get_r(int* M,int x, int y)
 			if(yi<0)
 			{
 				yi = ly+yi;
-				//printf("entro y\n");
 			}		
 			p = M[ind(yi,xi)];
 			if(p==0)
@@ -192,12 +191,13 @@ int rmax(double* L)
 }
 void imprim(double* L)
 {
-	int j;
+	int i = rmax(L);
+	double x = L[indl(i,0)]*(360.0/744.0)-180;
+	double y = L[indl(i,1)]*(-180.0/500.0)+90;
+	double r = L[indl(i,2)];	
+	printf("Las coordenadas del punto mas alejado son: longitud:%f, latitud:%f\n",(float)x,(float)y);
 	FILE *f = fopen("m.txt","w");
-	for(j=0;j<iter;j++)
-	{
-		fprintf(f, "%d %d %e\n",(int)L[indl(j,0)],(int)L[indl(j,1)],L[indl(j,2)]);
-	}
+	fprintf(f, "%e %e %e\n",x,y,r);
 	fclose(f);
 }
 
